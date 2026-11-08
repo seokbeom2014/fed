@@ -31,6 +31,14 @@ export const metadata = {
     'TEVAR',
     'Frozen Elephant Trunk',
   ],
+  alternates: {
+    canonical: '/',
+    types: {
+      'application/rss+xml': [
+        { url: '/feed.xml', title: `${profile.nameKo} 건강정보 노트` },
+      ],
+    },
+  },
   openGraph: {
     title: `${profile.nameKo} · ${profile.titleKo}`,
     description: profile.subheadline,

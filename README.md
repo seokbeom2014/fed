@@ -62,8 +62,9 @@ vercel
 
 Vercel 프로젝트 설정 → Environment Variables에 위 변수들을 등록합니다.
 
-**`NEXT_PUBLIC_SITE_URL` 은 꼭 넣으세요.** 비워두면 Vercel 주입 도메인으로 떨어지고,
-그마저 없으면 `localhost` 주소로 사이트맵이 생성됩니다(빌드 로그에 `[site]` 경고가 찍힙니다).
+정본 도메인은 **`https://www.fedpapa.com`** 입니다(apex 는 Vercel 에서 308 → www).
+`lib/site.js` 에 기본값으로 박혀 있으니 환경변수 없이도 맞게 생성됩니다.
+도메인을 바꿀 때는 `NEXT_PUBLIC_SITE_URL` 만 넣으면 전체가 따라갑니다.
 
 ### SEO 경로
 
@@ -71,6 +72,7 @@ Vercel 프로젝트 설정 → Environment Variables에 위 변수들을 등록�
 |---|---|
 | `/sitemap.xml` | `app/sitemap.js` — 홈 + 건강정보 노트 전체(Supabase 글 포함), 1시간마다 재생성 |
 | `/robots.txt` | `app/robots.js` — 전체 허용 + 네이버 `Yeti` 명시, Sitemap 경로 포함 |
+| `/feed.xml` | `app/feed.xml/route.js` — RSS 2.0. 본문 전문을 `content:encoded` 로 싣고, `<head>` 에 자동발견 링크가 걸림 |
 | `/google…html`, `/naver…html` | `public/` 소유확인 파일 |
 
 사이트맵 제출: Google Search Console → 색인 → Sitemaps, 네이버 서치어드바이저 →

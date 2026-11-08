@@ -369,6 +369,14 @@ export default async function Home() {
                 진료실과 건강강좌에서 자주 나온 질문을 근거와 함께 정리했습니다.
               </p>
             </div>
+            <a className="more" href="/feed.xml">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M4 11a9 9 0 0 1 9 9" />
+                <path d="M4 4a16 16 0 0 1 16 16" />
+                <circle cx="5" cy="19" r="1" fill="currentColor" />
+              </svg>
+              RSS 구독
+            </a>
           </div>
 
           <div className="notes">
