@@ -34,6 +34,17 @@ export const metadata = {
     type: 'profile',
     locale: 'ko_KR',
   },
+  verification: {
+    other: {
+      // 네이버 서치어드바이저. public/naver<토큰>.html 파일 방식과 이중으로 걸어둔다.
+      // ※ 확인 필요 — 파일명의 토큰을 그대로 썼다. 서치어드바이저
+      //    → 사이트 소유확인 → "HTML 태그" 탭의 content 값과 대조할 것.
+      'naver-site-verification': 'f63dfeab2e477d7e86d4209f4d97ac8d',
+    },
+    // Google 은 meta 태그용 토큰이 파일명 토큰과 다른 값이다(43자 내외).
+    // Search Console → 설정 → 소유권 확인 → "HTML 태그" 의 content 를 받아 활성화.
+    // google: '...',
+  },
 };
 
 export const viewport = {
