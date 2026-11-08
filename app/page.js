@@ -15,6 +15,8 @@ import {
   presentations,
   research,
   publications,
+  videos,
+  channelUrl,
 } from '../lib/content';
 
 export const revalidate = 300;
@@ -331,8 +333,63 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ============ 06 FAQ ============ */}
-      <section className="sec sec--alt" id="faq">
+      {/* ============ 06 수술 영상 ============ */}
+      <section className="sec sec--alt" id="videos">
+        <div className="wrap">
+          <div className="stitle stitle--row">
+            <div>
+              <span className="eyebrow">Surgical Video</span>
+              <h2 className="sec-title">수술 영상</h2>
+              <p className="sec-sub">
+                학회 발표와 수기 공유를 위해 기록한 수술 영상입니다. 의료인을 대상으로 한
+                학술 자료이며, 환자 교육용 설명 영상이 아닙니다.
+              </p>
+            </div>
+            <a
+              className="more"
+              href={channelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              YouTube 채널
+            </a>
+          </div>
+
+          <p className="notice" style={{ marginTop: 0, marginBottom: '2rem' }}>
+            <strong>안내</strong>
+            <br />
+            아래 영상에는 실제 수술 장면이 포함되어 있습니다. 재생하기 전에 참고해
+            주세요.
+          </p>
+
+          <ul className="vids">
+            {videos.map((v) => (
+              <li className="vid" key={v.id}>
+                <div className="vid__frame">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${v.id}?rel=0`}
+                    title={v.titleEn}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                </div>
+                <div className="vid__text">
+                  <time className="vid__date" dateTime={v.date}>
+                    {v.date}
+                  </time>
+                  <h3 className="vid__title">{v.titleKo}</h3>
+                  <p className="vid__en">{v.titleEn}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ============ 07 FAQ ============ */}
+      <section className="sec" id="faq">
         <div className="wrap">
           <div className="stitle">
             <span className="eyebrow">FAQ</span>
@@ -358,8 +415,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ============ 07 건강정보 노트 ============ */}
-      <section className="sec" id="notes">
+      {/* ============ 08 건강정보 노트 ============ */}
+      <section className="sec sec--alt" id="notes">
         <div className="wrap">
           <div className="stitle stitle--row">
             <div>
@@ -392,8 +449,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ============ 08 오시는 길 · 문의 ============ */}
-      <section className="sec sec--alt" id="contact">
+      {/* ============ 09 오시는 길 ============ */}
+      <section className="sec" id="contact">
         <div className="wrap">
           <div className="stitle">
             <span className="eyebrow">Contact</span>

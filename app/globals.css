@@ -1059,6 +1059,63 @@ summary:focus-visible {
   text-underline-offset: 3px;
 }
 
+/* ---------------- surgical video ---------------- */
+
+.vids {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+.vid {
+  display: flex;
+  flex-direction: column;
+}
+.vid__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  background: var(--dark);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.vid__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.vid__text {
+  padding: 1.1rem 0.25rem 0;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 1.1rem;
+}
+.vid__date {
+  display: block;
+  font-family: var(--f-en);
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.vid__title {
+  margin-top: 0.4rem;
+  font-family: var(--f-display);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+}
+.vid__en {
+  margin-top: 0.4rem;
+  font-family: var(--f-en);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--subtle);
+  word-break: break-word;
+}
+
 /* ---------------- notes / blog ---------------- */
 
 .notes {
@@ -1493,6 +1550,9 @@ summary:focus-visible {
   }
   .nlist li {
     grid-template-columns: 120px 1fr;
+  }
+  .vids {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
