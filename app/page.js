@@ -1,5 +1,6 @@
 import Publications from '../components/Publications';
 import { getPosts } from '../lib/posts';
+import { homeGraph, jsonLd } from '../lib/schema';
 import {
   profile,
   introLead,
@@ -38,6 +39,12 @@ export default async function Home() {
 
   return (
     <>
+      {/* 구조화 데이터 — 답변 엔진이 인물·진료분야·FAQ·영상을 그래프로 읽는다. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(homeGraph(posts)) }}
+      />
+
       {/* ============ HERO ============ */}
       <section className="hero" aria-label="대표 문구">
         <div className="hero__in">

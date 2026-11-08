@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getPost, getPosts } from '../../../lib/posts';
+import { notePageGraph, jsonLd } from '../../../lib/schema';
 
 export const revalidate = 300;
 
@@ -25,6 +26,12 @@ export default async function NotePage({ params }) {
 
   return (
     <article className="wrap post">
+      {/* 구조화 데이터 — refs 를 citation 으로 넘겨 출처를 따라갈 수 있게 한다. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(notePageGraph(post)) }}
+      />
+
       <a className="post__back" href="/#notes">
         ← 건강정보 노트 목록
       </a>

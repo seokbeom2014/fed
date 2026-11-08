@@ -73,6 +73,26 @@ Vercel 프로젝트 설정 → Environment Variables에 위 변수들을 등록�
 | `/sitemap.xml` | `app/sitemap.js` — 홈 + 건강정보 노트 전체(Supabase 글 포함), 1시간마다 재생성 |
 | `/robots.txt` | `app/robots.js` — 전체 허용 + 네이버 `Yeti` 명시, Sitemap 경로 포함 |
 | `/feed.xml` | `app/feed.xml/route.js` — RSS 2.0. 본문 전문을 `content:encoded` 로 싣고, `<head>` 에 자동발견 링크가 걸림 |
+| `/llms.txt` | `app/llms.txt/route.js` — LLM 용 마크다운 색인 ([llmstxt.org](https://llmstxt.org) 관례) |
+| `/llms-full.txt` | `app/llms-full.txt/route.js` — 건강정보 노트 전문 + 참고문헌 전체 |
+
+### AEO / GEO
+
+| 무엇 | 어디 |
+|---|---|
+| schema.org JSON-LD | `lib/schema.js` → 홈은 `@graph`(MedicalOrganization·Person·WebSite·**FAQPage**·VideoObject×4·ItemList), 노트는 **MedicalWebPage + citation** |
+| AI 크롤러 명시 | `app/robots.js` 의 `ANSWER_ENGINE_BOTS` |
+| LLM 용 마크다운 | `/llms.txt`, `/llms-full.txt` |
+
+**효과를 과장하지 말 것.**
+- `robots.txt` 의 `*` 규칙이 이미 전체 허용이라, 봇 이름을 적는 것은 *차단 의도가 없다*는
+  의사 표시에 가깝다. 차단하려면 해당 항목을 `disallow` 로 바꾼다.
+- `Google-Extended`·`Applebot-Extended` 는 검색 수집용이 아니라 **AI 학습 활용 토큰**이다.
+  허용 상태 = 콘텐츠가 모델 학습에 쓰이는 것에 동의.
+- `llms.txt` 는 제안 단계의 관례이고 주요 엔진의 공식 채택은 확인되지 않았다.
+  비용이 거의 없어 넣어둔 것이며, 효과가 보장된 것은 아니다.
+- 실제로 인용을 끌어오는 것은 결국 **출처가 달린 본문**이다. 지금처럼 모든 수치에
+  가이드라인·원논문을 붙이는 방식을 유지하는 것이 AEO 의 본체다.
 | `/google…html`, `/naver…html` | `public/` 소유확인 파일 |
 
 사이트맵 제출: Google Search Console → 색인 → Sitemaps, 네이버 서치어드바이저 →
