@@ -1,49 +1,83 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { navItems, profile } from '../lib/content';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
-  return (
-    <header className="header">
-      <div className="wrap header__inner">
-        <a href="/" className="logo" aria-label="홈으로">
-          <div className="logo__icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
-          </div>
-          <span className="logo__name">{profile.nameKo}</span>
-          <span className="logo__dept">심장혈관흉부외과</span>
-        </a>
+  // 드로어가 열려 있는 동안 배경 스크롤을 막는다.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
-        <nav className={open ? 'nav nav--open' : 'nav'}>
+  const close = () => setOpen(false);
+
+  return (
+    <>
+      <header className={open ? 'hd hd--open' : 'hd'}>
+        <div className="wrap hd__in">
+          <a className="logo" href="/" aria-label="홈으로">
+            <span className="logo__name">{profile.nameKo}</span>
+            <span className="logo__en">Aortic Surgery</span>
+          </a>
+
+          <nav className="gn" aria-label="주 메뉴">
+            <ul className="gn__list">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <a className="gn__item" href={`/${item.href}`}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="hd__right">
+            <a className="hd__tel" href={`tel:${profile.expressPhone}`}>
+              <span className="l">Express 직통</span>
+              <span className="v">{profile.expressPhone}</span>
+            </a>
+            <button
+              className="hd__burger"
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mdrawer"
+              aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div
+        className={open ? 'mdrawer mdrawer--open' : 'mdrawer'}
+        id="mdrawer"
+        hidden={!open}
+      >
+        <nav className="mdrawer__sec" aria-label="모바일 메뉴">
           {navItems.map((item) => (
-            <a key={item.href} href={`/${item.href}`} onClick={() => setOpen(false)}>
+            <a key={item.href} href={`/${item.href}`} onClick={close}>
               {item.label}
+              <span>{item.en}</span>
             </a>
           ))}
         </nav>
 
-        <a className="header__cta" href="/#contact">
-          <span>진료 문의</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
-
-        <button
-          className="nav-toggle"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="메뉴 열기"
-        >
-          {open ? '닫기 ✕' : '메뉴 ☰'}
-        </button>
+        <div className="mdrawer__tel">
+          <a className="btn btn--primary" href={`tel:${profile.expressPhone}`}>
+            {profile.expressLabel} {profile.expressPhone}
+          </a>
+        </div>
       </div>
-    </header>
+    </>
   );
 }

@@ -1,7 +1,17 @@
 import './globals.css';
+import { Marcellus } from 'next/font/google';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import QuickBar from '../components/QuickBar';
 import { profile } from '../lib/content';
+
+/* 영문 라벨용 세리프. next/font 로 자체 호스팅해 외부 요청·레이아웃 시프트를 없앤다. */
+const marcellus = Marcellus({
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  variable: '--font-marcellus',
+});
 
 export const metadata = {
   title: `${profile.nameKo} | ${profile.affiliationKo} 심장혈관흉부외과`,
@@ -33,17 +43,27 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={marcellus.variable}>
       <head>
+        {/* 본문 — Pretendard Variable */}
         <link
           rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        {/* 제목 — SUIT Variable */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css"
         />
       </head>
       <body>
+        <a className="skip" href="#main">
+          본문으로 바로가기
+        </a>
         <Header />
-        <main>{children}</main>
+        <main id="main">{children}</main>
         <Footer />
+        <QuickBar />
       </body>
     </html>
   );

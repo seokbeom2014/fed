@@ -5,3 +5,6 @@ out
 .env.local
 .DS_Store
 *.log
+
+# 개편 전 원본 백업 (git 이력에 이미 있으므로 추적하지 않음)
+_backup_md3/

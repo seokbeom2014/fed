@@ -1,9 +1,9 @@
 # 홍석범 교수 홈페이지
 
 이대서울병원 심장혈관흉부외과 홍석범 교수 개인 홈페이지.
-`yoolaw.vercel.app` 구조(단일 페이지 + 번호 매긴 섹션 + 카드 레이아웃)를 참고했습니다.
+`mymediart.co` 의 디자인 체계(각진 에디토리얼 · 버건디 accent · 1340px 그리드 · SUIT/Pretendard/Marcellus)를 기준으로 재구성했습니다.
 
-- **Frontend**: Next.js 15 (App Router) + 순수 CSS (프레임워크 없음)
+- **Frontend**: Next.js 16 (App Router) + 순수 CSS (프레임워크 없음)
 - **Backend**: Supabase (PostgreSQL + RLS)
 
 ---
@@ -19,7 +19,7 @@ npm run dev
 → http://localhost:3000
 
 **Supabase 없이도 그대로 돕니다.** 환경변수가 없으면 건강정보 글은
-`lib/content.js`의 `seedPosts`를 쓰고, 문의 폼만 비활성 안내가 뜹니다.
+`lib/content.js`의 `seedPosts`를 씁니다.
 
 ---
 
@@ -27,7 +27,8 @@ npm run dev
 
 1. [supabase.com](https://supabase.com)에서 프로젝트 생성 (region: Northeast Asia (Seoul))
 2. **SQL Editor**에 `supabase/schema.sql` 전체를 붙여넣고 실행
-   - `posts`, `inquiries` 테이블 + RLS 정책 + 건강정보 글 6편 seed가 한 번에 들어갑니다
+   - `posts` 테이블 + RLS 정책 + 건강정보 글 6편 seed가 들어갑니다
+   - `schema.sql`에 남아 있는 `inquiries` 테이블은 **현재 사이트에서 쓰지 않습니다** (문의 기능 삭제). 이미 생성해 두셨다면 접수된 내용이 있는지 확인한 뒤 drop 여부를 결정하세요.
 3. **Project Settings → API**에서 키를 복사해 `.env.local` 생성
 
 ```bash
@@ -38,7 +39,6 @@ cp .env.local.example .env.local
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | 프로젝트 URL | 공개 |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 글 읽기 (RLS로 보호) | 공개 |
-| `SUPABASE_SERVICE_ROLE_KEY` | 문의 저장 (서버 전용) | **비공개** |
 
 4. `npm run dev` 재시작
 
@@ -47,9 +47,8 @@ cp .env.local.example .env.local
 | 대상 | 테이블 | 접근 |
 |---|---|---|
 | 건강정보 노트 | `posts` | anon SELECT (`is_published = true`만) |
-| 문의 접수 | `inquiries` | 서버 라우트가 service_role로 INSERT. **SELECT 정책 없음 → 웹에서 열람 불가**, Supabase 대시보드에서만 확인 |
 
-문의 내용은 일반에 노출되지 않도록 읽기 정책을 아예 만들지 않았습니다.
+읽기 전용입니다. 사이트에서 개인정보를 수집하는 경로는 없습니다.
 
 ---
 
@@ -60,8 +59,7 @@ npm i -g vercel
 vercel
 ```
 
-Vercel 프로젝트 설정 → Environment Variables에 위 3개 변수를 등록합니다.
-`SUPABASE_SERVICE_ROLE_KEY`는 반드시 `NEXT_PUBLIC_` 접두어 **없이** 넣으세요.
+Vercel 프로젝트 설정 → Environment Variables에 위 2개 변수를 등록합니다.
 
 ---
 
@@ -100,8 +98,12 @@ Vercel 프로젝트 설정 → Environment Variables에 위 3개 변수를 등�
 ## 6. 게시 전 확인이 필요한 항목
 
 - [ ] **프로필 사진** — 현재 `public/profile.jpg`는 2022년 사원증 사진입니다. 공개용 사진으로 교체 권장
-- [ ] **진료실 전화 `02-6986-2110`** — CV 기재값. 외부 공개 여부 확인
-- [ ] **이메일 `seokbeom2014@gmail.com`** — 개인 메일입니다. 공개용 주소를 따로 쓸지 결정
+- [x] **전화번호** — 대표번호(`1666-5000`)·진료실 직통(`02-6986-2110`)은 삭제했고, **이대대동맥센터 Express 교수 직통 `010-2532-1198`** 1개만 싣습니다 (`profile.expressPhone`).
+- [ ] **Express 직통번호 공개 범위** — 개인 휴대전화 번호입니다. 공개 웹페이지에 올리면 크롤링·스팸 대상이 되므로, 전화 받는 대상(환자 / 타 병원 의뢰)을 문구로 한정할지 검토
+- [x] **진료 문의 폼** — 삭제했습니다. 양식·`/api/inquiry` 엔드포인트·service_role 키 의존 모두 제거.
+- [ ] **이메일 `seokbeom2014@gmail.com`** — 개인 메일입니다. 공개용 주소로 바꿀지 결정 필요
+- [ ] **외래 요일·시간** — `components/QuickBar.js`의 `TODO` 자리. 넣을지 결정
+- [ ] **지도 링크** — 현재 네이버 지도 검색 URL입니다. 병원 공식 "오시는 길" 페이지 URL로 교체 권장
 - [ ] **직위 표기** — CV 영문은 "Assistant Professor of Clinical Practice", 병원 양식 국문은 "진료조교수"로 통일했습니다. 병원 공식 표기와 대조 필요
 - [ ] **논문 17편** — CV 기준. PubMed로 최신 목록 재확인 권장 (`verify-references` 스킬 사용 가능)
 - [ ] **의료광고 심의** — 의료법상 의료인의 홈페이지도 의료광고에 해당할 수 있습니다. 수술 성적·비교 표현을 추가하실 경우 사전심의 대상인지 병원 홍보팀과 확인하세요. 현재 사이트에는 성적 수치나 비교 표현을 넣지 않았습니다.

@@ -16,7 +16,7 @@ export default function Publications({ items }) {
 
   return (
     <div>
-      <div className="pub__filters">
+      <div className="pub__filters" role="group" aria-label="논문 분야 필터">
         {topics.map((t) => (
           <button
             key={t}
@@ -25,10 +25,7 @@ export default function Publications({ items }) {
             aria-pressed={topic === t}
             onClick={() => setTopic(t)}
           >
-            {t}
-            <span style={{ opacity: 0.8, marginLeft: '6px', fontSize: '13px' }}>
-              ({t === ALL ? items.length : items.filter((p) => p.topic === t).length})
-            </span>
+            {t} ({t === ALL ? items.length : items.filter((p) => p.topic === t).length})
           </button>
         ))}
       </div>
@@ -43,14 +40,9 @@ export default function Publications({ items }) {
                   href={`https://doi.org/${p.doi}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                 >
-                  <span>{p.title}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ shrink: 0, opacity: 0.7 }}>
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
+                  {p.title}
+                  <span aria-hidden="true"> ↗</span>
                 </a>
               </h3>
               <p className="pub__meta">
@@ -60,7 +52,9 @@ export default function Publications({ items }) {
             </div>
           </article>
         ))}
-        {shown.length === 0 && <p className="pub__empty">해당 분야의 논문이 없습니다.</p>}
+        {shown.length === 0 && (
+          <p className="pub__empty">해당 분야의 논문이 없습니다.</p>
+        )}
       </div>
     </div>
   );
