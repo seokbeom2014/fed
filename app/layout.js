@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import QuickBar from '../components/QuickBar';
 import { profile } from '../lib/content';
+import { siteUrl } from '../lib/site';
 
 /* 영문 라벨용 세리프. next/font 로 자체 호스팅해 외부 요청·레이아웃 시프트를 없앤다. */
 const marcellus = Marcellus({
@@ -14,6 +15,8 @@ const marcellus = Marcellus({
 });
 
 export const metadata = {
+  // OG·canonical·사이트맵이 절대 URL 로 풀리도록 기준 도메인을 지정한다.
+  metadataBase: new URL(siteUrl),
   title: `${profile.nameKo} | ${profile.affiliationKo} 심장혈관흉부외과`,
   description:
     '대동맥박리·대동맥류·대동맥판막질환 수술과 유전성 대동맥질환 가족 관리. 이대서울병원 이대대동맥혈관병원 심장혈관흉부외과 홍석범 교수.',

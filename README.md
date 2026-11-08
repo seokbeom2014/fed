@@ -39,6 +39,7 @@ cp .env.local.example .env.local
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | 프로젝트 URL | 공개 |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 글 읽기 (RLS로 보호) | 공개 |
+| `NEXT_PUBLIC_SITE_URL` | `sitemap.xml`·`robots.txt`·OG 태그의 절대 URL 기준 | 공개 |
 
 4. `npm run dev` 재시작
 
@@ -59,7 +60,21 @@ npm i -g vercel
 vercel
 ```
 
-Vercel 프로젝트 설정 → Environment Variables에 위 2개 변수를 등록합니다.
+Vercel 프로젝트 설정 → Environment Variables에 위 변수들을 등록합니다.
+
+**`NEXT_PUBLIC_SITE_URL` 은 꼭 넣으세요.** 비워두면 Vercel 주입 도메인으로 떨어지고,
+그마저 없으면 `localhost` 주소로 사이트맵이 생성됩니다(빌드 로그에 `[site]` 경고가 찍힙니다).
+
+### SEO 경로
+
+| 경로 | 생성 위치 |
+|---|---|
+| `/sitemap.xml` | `app/sitemap.js` — 홈 + 건강정보 노트 전체(Supabase 글 포함), 1시간마다 재생성 |
+| `/robots.txt` | `app/robots.js` — 전체 허용 + 네이버 `Yeti` 명시, Sitemap 경로 포함 |
+| `/google…html`, `/naver…html` | `public/` 소유확인 파일 |
+
+사이트맵 제출: Google Search Console → 색인 → Sitemaps, 네이버 서치어드바이저 →
+요청 → 사이트맵 제출. 둘 다 `sitemap.xml` 경로를 넣습니다.
 
 ---
 
